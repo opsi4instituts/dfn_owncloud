@@ -1,0 +1,63 @@
+[Package]
+version: 027
+depends: 
+incremental: False
+
+[Product]
+type: localboot
+id: dfn_owncloud
+name: ownCloud Desktop-SyncClient
+description: Speicher- und Sync-Client für den Clouddienst "onwCloud", Clients sind für fuer alle Plattformen (Win, Mac, Linux, mobile) verfuegbar.
+advice: (Krummel: aktualisiert  am 14.07.2015)
+version: 1.8.4.5267
+priority: 0
+licenseRequired: False
+productClasses: 
+setupScript: setup32.opsiscript
+uninstallScript: uninstall32.opsiscript
+updateScript: 
+alwaysScript: 
+onceScript: 
+customScript: 
+userLoginScript: 
+
+[ProductProperty]
+type: bool
+name: alluserdesktoplink
+description: Link auf AllUserDesktop erzeugen
+default: True
+
+[ProductProperty]
+type: bool
+name: update_notify
+description: Update-Notifier für User
+default: False
+
+[Changelog]
+owncloud (1.8.4.5267-027) stable; urgency=low
+
+ * minor Update
+
+ -- Detlef Krummel <krummel@gei.de>  Mon, 14 Jul 2015 03:52:27 +0000
+owncloud (1.8.3.5250-026) stable; urgency=low
+
+ * minor Update
+
+ -- Detlef Krummel <krummel@gei.de>  Mon, 06 Jul 2015 17:52:27 +0000
+
+owncloud (1.8.3.5213-025) testing; urgency=low
+
+  * Update
+
+ -- D.Krummel <krummel@gei.de>  Sat, 25 Jun 2015 19:25:03 +0001
+
+owncloud (1.1.1-1) testing; urgency=low
+
+  * Initial package
+
+ -- D.Krummel <krummel@gei.de>  Sat, 03 Nov 2012 12:14:03 +0000
+
+
+
+
+

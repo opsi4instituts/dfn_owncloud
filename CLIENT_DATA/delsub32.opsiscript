@@ -1,0 +1,28 @@
+; Copyright (c) uib gmbh (www.uib.de)
+; This sourcecode is owned by uib gmbh
+; and published under the Terms of the General Public License.
+; credits: http://www.opsi.org/en/credits/
+
+include_append "%ScriptPath%\..\lib\check_nullsoft-exitcode.ins"
+
+Set $UninstallProgram$ = $InstallDir$ + "\uninstall.exe"
+Message "Uninstalling " + $ProductId$ + " ..."
+
+if FileExists($UninstallProgram$)
+	comment "Uninstall program found, starting uninstall"
+	killtask "owncloud.exe"
+	Winbatch_uninstall /WaitForProcessEnding "owncloud" /TimeOutSeconds 20
+	sub_check_exitcode
+endif
+
+comment "Delete program shortcuts"
+LinkFolder_uninstall
+
+; -----------------------------------------------------------
+[Winbatch_uninstall]
+"$UninstallProgram$" /S
+
+[LinkFolder_uninstall]
+set_basefolder common_desktopdirectory
+set_subfolder ""
+delete_element $ProductId$
