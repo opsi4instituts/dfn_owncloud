@@ -11,42 +11,31 @@ DefVar $UninstallProgram$
 DefVar $LogDir$
 DefVar $ExitCode$
 DefVar $ProductId$
+DefVar $ProductName$
 DefVar $InstallDir$
-DefVar $LicenseRequired$
-DefVar $LicensePool$
 
 Set $LogDir$ 		= "%opsiLogDir%"
 Set $ProductId$		= "owncloud"
+Set $ProductName$       = "OwnCloud Client"
 Set $InstallDir$	= "%ProgramFiles32Dir%\" + $ProductId$ 
-Set $LicenseRequired$	= "false"
-Set $LicensePool$	= "p_" + $ProductId$
 ; ----------------------------------------------------------------
 
-comment "Show product picture"
-ShowBitmap "%ScriptPath%\" + $ProductId$ + ".png" $ProductId$
 
-Message "Uninstalling " + $ProductId$ + " ..."
+comment "Show product picture"
+if (FileExists("%ScriptPath%\..\lib\icons\%installingProdName%.png"))
+	comment "logo at local library/icon found."
+	ShowBitmap "%ScriptPath%\..\lib\icons\%installingProdName%.png" $ProductName$
+else
+	comment "no logo at local library/icon, use from ScriptPath ..."
+	ShowBitmap "%ScriptPath%\o4i.png" $ProductName$
+endif
+
+Message "Uninstalling (old) %installingProdName$..."
 
 if FileExists("%ScriptPath%\delsub32.opsiscript")
 	comment "Start uninstall sub section"
 	Sub "%ScriptPath%\delsub32.opsiscript"
+else
+	LogError "uninstall, but no DelSub found!"
+	isFatalError "noDelSub!
 endif
-
-if $LicenseRequired$ = "true"
-	comment "Licensing required, free license used"
-	Sub_free_license
-endif
-
-[Sub_free_license]
-comment "License management is enabled and will be used"
-
-comment "Trying to free license used for the product"
-DefVar $result$
-Set $result$ = FreeLicense($LicensePool$)
-; If there is an assignment of a license pool to the product, it is possible to use
-; Set $result$ = FreeLicense("", $ProductId$)
-;
-; If there is an assignment of a license pool to a windows software id, it is possible to use
-; DefVar $WindowsSoftwareId$
-; $WindowsSoftwareId$ = "..."
-; set $result$ = FreeLicense("", "", $WindowsSoftwareId$)

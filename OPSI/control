@@ -1,5 +1,5 @@
 [Package]
-version: 027
+version: 2
 depends: 
 incremental: False
 
@@ -8,8 +8,8 @@ type: localboot
 id: dfn_owncloud
 name: ownCloud Desktop-SyncClient
 description: Speicher- und Sync-Client für den Clouddienst "onwCloud", Clients sind für fuer alle Plattformen (Win, Mac, Linux, mobile) verfuegbar.
-advice: (Krummel: aktualisiert  am 14.07.2015)
-version: 1.8.4.5267
+advice: (Krummel: aktualisiert  am 27.12.2017)
+version: 2.4.0.8894
 priority: 0
 licenseRequired: False
 productClasses: 
@@ -33,31 +33,92 @@ name: update_notify
 description: Update-Notifier für User
 default: False
 
+[ProductProperty]
+type: unicode
+name: minimumspace
+multivalue: False
+editable: True
+description: required hdd space for installation
+values: ["250 MB"]
+default: ["250 MB"]
+
 [Changelog]
+owncloud (2.4.0.8894-044) stable; urgency=low
+
+ * Paket Version #2: Bugfix TimeOut (DANK an welbers@iks.rwth-aachen.de!)
+ * setup: Winbatch_install ohne Parameter
+ * delsub: Winbatch_uninstall /WaitForProcessEnding nun mit "Au_.exe"
+ * delsub: zusätzliches Files_uninstall
+
+ -- Detlef Krummel <krummel@gei.de> 24.12.2017
+
+owncloud (2.4.0.8894-044) stable; urgency=low
+ * major update, only .exe changed
+ -- Detlef Krummel <krummel@gei.de> 24.12.2017
+owncloud (2.3.4.8624-043) stable; urgency=low
+ * del *.png, add 04i.png
+ * minor update
+ -- Detlef Krummel <krummel@gei.de> 06.11.2017
+owncloud (2.3.3.8250-042) stable; urgency=low
+ * fix uninstall32 Line15
+ -- Detlef Krummel <krummel@gei.de> 05.08.2017
+owncloud (2.3.3.8250-041) stable; urgency=low
+ * minor update
+ -- Detlef Krummel <krummel@gei.de> 05.08.2017
+owncloud (2.3.2.6928-040) stable; urgency=low
+ * minor update
+ -- Detlef Krummel <krummel@gei.de> 10.05.2017
+owncloud (2.3.1.6824-039) stable; urgency=low
+ * minor update
+ -- Detlef Krummel <krummel@gei.de> 21.03.2017
+owncloud (2.3.0.6780-038) stable; urgency=low
+ * minor update
+ -- Detlef Krummel <krummel@gei.de> 03.03.2017
+owncloud (2xxxxxxxx-037) stable; urgency=low
+ * minor update
+ * property "minimumspace"
+ -- Detlef Krummel <krummel@gei.de>  2016
+owncloud (2.2.4.6408-036) stable; urgency=low
+ * minor update
+ * o4i logo 8/2016
+ -- Detlef Krummel <krummel@gei.de>  13 May 2016
+owncloud (2.2.2.6192-035) stable; urgency=low
+ * minor update
+ * Licence* gelöscht
+ * new o4i logo 6/2016
+ -- Detlef Krummel <krummel@gei.de>  13 May 2016
+owncloud (2.2.1.6146-034) stable; urgency=low
+ * minor update
+ -- Detlef Krummel <krummel@gei.de>  13 May 2016
+owncloud (2.2.0.6076-033) stable; urgency=low
+ * minor update
+ -- Detlef Krummel <krummel@gei.de>  13 May 2016
+owncloud (2.1.1.5837-032) stable; urgency=low
+ * minor update
+ -- Detlef Krummel <krummel@gei.de>  Mon, 10 Feb 2016
+owncloud (2.1.0.5683-031) stable; urgency=low
+ * minor update
+ * ErrorLevel 259 abgefangen, SUB_check_exitcode reaktivert
+ * check_nsis in CLIENT_DATA
+ -- Detlef Krummel <krummel@gei.de>  Mon, 03 Dec 2015 18:00:00 +0000
+owncloud (2.0.2.5569-030) stable; urgency=low
+ * Minor Update
+ -- Detlef Krummel <krummel@gei.de>  Mon, 21 Oct 2015 21:00:00 +0000
+owncloud (2.0.1.5446-029) stable; urgency=low
+ * Minor Update
+ -- Detlef Krummel <krummel@gei.de>  Mon, 2 Sep 2015 06:00:00 +0000
+owncloud (2.0.0.5423-028) stable; urgency=low
+ * Major Update
+ -- Detlef Krummel <krummel@gei.de>  Mon, 25 Aug 2015 17:00:00 +0000
 owncloud (1.8.4.5267-027) stable; urgency=low
-
  * minor Update
-
  -- Detlef Krummel <krummel@gei.de>  Mon, 14 Jul 2015 03:52:27 +0000
 owncloud (1.8.3.5250-026) stable; urgency=low
-
  * minor Update
-
  -- Detlef Krummel <krummel@gei.de>  Mon, 06 Jul 2015 17:52:27 +0000
-
 owncloud (1.8.3.5213-025) testing; urgency=low
-
   * Update
-
  -- D.Krummel <krummel@gei.de>  Sat, 25 Jun 2015 19:25:03 +0001
-
 owncloud (1.1.1-1) testing; urgency=low
-
   * Initial package
-
  -- D.Krummel <krummel@gei.de>  Sat, 03 Nov 2012 12:14:03 +0000
-
-
-
-
-

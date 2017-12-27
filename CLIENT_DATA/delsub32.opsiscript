@@ -3,16 +3,22 @@
 ; and published under the Terms of the General Public License.
 ; credits: http://www.opsi.org/en/credits/
 
-include_append "%ScriptPath%\..\lib\check_nullsoft-exitcode.ins"
+include_append "%ScriptPath%\check_nsis_exitcode.opsiscript"
 
 Set $UninstallProgram$ = $InstallDir$ + "\uninstall.exe"
-Message "Uninstalling " + $ProductId$ + " ..."
+Message "uninstalling (old) %installingProdName%..."
 
 if FileExists($UninstallProgram$)
 	comment "Uninstall program found, starting uninstall"
 	killtask "owncloud.exe"
-	Winbatch_uninstall /WaitForProcessEnding "owncloud" /TimeOutSeconds 20
+;	Winbatch_uninstall /WaitForProcessEnding "owncloud" /TimeOutSeconds 20
+	Winbatch_uninstall /WaitForProcessEnding "Au_.exe" /TimeOutSeconds 30
 	sub_check_exitcode
+endif
+
+if (not($InstallDir$ = '')) and (not($InstallDir$ = "not used"))
+   killtask "owncloud.exe"
+   Files_uninstall
 endif
 
 comment "Delete program shortcuts"
@@ -26,3 +32,6 @@ LinkFolder_uninstall
 set_basefolder common_desktopdirectory
 set_subfolder ""
 delete_element $ProductId$
+
+[Files_uninstall]
+del -sf "$InstallDir$\"

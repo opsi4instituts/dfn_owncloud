@@ -8,11 +8,12 @@
 
 [Actions]
 requiredWinstVersion >= "4.11.4.4"
-include_append "%ScriptDrive%\lib\check_nsis-exitcode.ins"
+include_append "%ScriptPath%\check_nsis_exitcode.opsiscript"
 
 DefVar $LogDir$ 
 DefVar $LogLevel$
 DefVar $ProductId$ 
+DefVar $ProductName$
 DefVar $MinimumSpace$
 Defvar $SetupType$
 DefVar $SetupFile$
@@ -20,23 +21,17 @@ DefVar $InstallDir$
 DefVar $InstallDirExe$
 DefVar $ExitCode$
 DefVar $ErrorMsg$
-DefVar $LicenseRequired$
-DefVar $LicenseKey$
-DefVar $LicensePool$
 DefVar $SilentSwitch$
 DefVar $UninstallProgram$ 
 DefVar $INST_SystemType$
 DefVar $UpdateNotifiy$
-DefVar $PrettyName$
 
-Set $PrettyName$ = "OwnCloud"
 Set $LogDir$	= "%opsiLogDir%"
 SetLogLevel 	= 6
 
 Set $SetupType$		= "nsis"
 Set $ProductId$		= "owncloud"
-Set $MinimumSpace$    	= "175 MB"				
-; von Nullsoft abweichender Pfad wegen einfacher DeInstallation
+Set $ProductName$ 	= "OwnCloud Client"
 Set $InstallDir$      	= "%ProgramFiles32Dir%\" + $ProductId$
 Set $InstallDirExe$	= $InstallDir$ + "\" + $ProductId$ + ".exe"
 Set $SilentSwitch$	= "/D=" + $InstallDir$
@@ -47,9 +42,6 @@ Set $PackageVersion$	= takeString(1, splitString ("%installingProdVersion%","-")
 Set $SetupVersion$	= strPart("%installingProdVersion%", "1", calculate(strPos("%installingProdVersion%","-") + "-" + "1" ))
 Set $SetupFile$ 	= "ownCloud-" + $SetupVersion$ + "-setup.exe"	
 
-Set $LicenseRequired$ = "false"
-Set $LicensePool$     = "p_" + $ProductId$
-
 ; read property from OPSI/control
 DefVar 	$control_AllUserDesktopLink$
 Set 	$control_AllUserDesktopLink$ = GetProductProperty("AllUserDesktopLink","True")
@@ -59,9 +51,11 @@ Set 	$INST_SystemType$ = GetSystemType
 ; ----------------------------------------------------------------
 
 ChangeDirectory "%SCRIPTPATH%"
+
+Set $MinimumSpace$    = GetProductProperty("minimumspace","200 MB")
 if not(HasMinimumSpace ("%SystemDrive%", $MinimumSpace$))
         LogError "Not enough space on %SystemDrive%, " + $MinimumSpace$ + " on drive %SystemDrive% needed for " + $ProductId$
-        isFatalError "No Space"
+        isFatalError "No Space!""
 else
         comment "Space OK"
 endif
@@ -72,20 +66,48 @@ else
         comment "Setupfile exists ..."
 endif 
 
-ShowBitmap "%ScriptPath%\" + $ProductId$ + ".png" $PrettyName$ + " " +$SetupVersion$	
+comment "Show product picture"
+if (FileExists("%ScriptPath%\..\lib\icons\%installingProdName%.png"))
+	comment "logo at local library/icon found."
+	ShowBitmap "%ScriptPath%\..\lib\icons\%installingProdName%.png" $ProductName$
+else
+	comment "no logo at local library/icon, use from ScriptPath ..."
+	ShowBitmap "%ScriptPath%\o4i.png" $ProductName$
+endif
+
 if FileExists("%ScriptPath%\delsub32.opsiscript")
 	comment "Start uninstall sub section"
 	Sub "%ScriptPath%\delsub32.opsiscript"
 endif
 
-Message "Installiere " + $ProductId$ + " (%InstallingProdVersion%)..."
+Message "installing (new) %installingProdName% (%installingProdVersion%) ..."
+
 comment "Start setup program"
 killtask "owncloud.exe"
-Winbatch_install /WaitForProcessEnding "owncloud.exe" /TimeOutSeconds 20
-;Sub_check_exitcode
+
+; Winbatch_install /WaitForProcessEnding "owncloud.exe" /TimeOutSeconds 20
+Winbatch_install
+
+; Detlef Krummel
+set $ExitCode$ = getLastExitCode
+if ($ExitCode$ = "0")
+        comment "ExitCode = "+$ExitCode$+" Setup was successfully run to completion."
+else
+        if ($ExitCode$ = "259")
+                set $ErrorMsg$ = "ExitCode = "+$ExitCode$+" - please Reboot before use 'owncloud'"
+		Message $ErrorMsg$
+		LogWarning $ErrorMsg$
+		sleepSeconds 10
+        else
+		Sub_check_exitcode
+        endif
+endif
+
 if $control_AllUserDesktopLink$ = "True"
 	comment "Create shortcuts"
 	LinkFolder_install
+else
+	Linkfolder_delete
 endif
 
 ;Set registry keys
@@ -142,3 +164,8 @@ set_link
  	icon_file: 
  	icon_index: 
 end_link
+
+[LinkFolder_delete]
+set_basefolder common_desktopdirectory
+set_subfolder ""
+delete_element "$ProductId$"
