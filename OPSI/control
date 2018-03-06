@@ -1,5 +1,5 @@
 [Package]
-version: 2
+version: 1
 depends: 
 incremental: False
 
@@ -8,8 +8,8 @@ type: localboot
 id: dfn_owncloud
 name: ownCloud Desktop-SyncClient
 description: Speicher- und Sync-Client für den Clouddienst "onwCloud", Clients sind für fuer alle Plattformen (Win, Mac, Linux, mobile) verfuegbar.
-advice: (Krummel: aktualisiert  am 27.12.2017)
-version: 2.4.0.8894
+advice: (Krummel: aktualisiert  am 06.03.2018)
+version: 2.4.1.9270
 priority: 0
 licenseRequired: False
 productClasses: 
@@ -43,15 +43,20 @@ values: ["250 MB"]
 default: ["250 MB"]
 
 [Changelog]
-owncloud (2.4.0.8894-044) stable; urgency=low
+owncloud (2.4.1.9270-045) stable; urgency=low
 
+ * minor update, only .exe changed
+ * push 2 github
+
+ -- Detlef Krummel <krummel@gei.de> 06.03.2018
+
+owncloud (2.4.0.8894-044) stable; urgency=low
  * Paket Version #2: Bugfix TimeOut (DANK an welbers@iks.rwth-aachen.de!)
  * setup: Winbatch_install ohne Parameter
  * delsub: Winbatch_uninstall /WaitForProcessEnding nun mit "Au_.exe"
  * delsub: zusätzliches Files_uninstall
-
+ * push 2 github
  -- Detlef Krummel <krummel@gei.de> 24.12.2017
-
 owncloud (2.4.0.8894-044) stable; urgency=low
  * major update, only .exe changed
  -- Detlef Krummel <krummel@gei.de> 24.12.2017
